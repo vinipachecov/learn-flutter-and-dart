@@ -32,15 +32,19 @@ So a minimal example in Flutter would be just something printed on the screen:
 ```dart
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MyApp());
-}
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  build(BuildContext context) {
+  Widget build(BuildContext context) {
     return MaterialApp(home: Text('Hello World'));
   }
 }
 ```
 
 The first line, the "import" is where we get the flutter sdk and its classes and functions to help building our app.
+For minimal code we need:
+
+- A file main.dart in lib
+- main function in the file with runApp() function
+- A class that extends one of the Widget classes
+- The class that extends one of the widget classes should implement the build method returning a widget at least or a widget tree.
