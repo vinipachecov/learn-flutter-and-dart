@@ -49,7 +49,6 @@ For minimal code we need:
 - A class that extends one of the Widget classes
 - The class that extends one of the widget classes should implement the build method returning a widget at least or a widget tree.
 
-
 ## Flutter Styling
 
 To add Styles in Flutter we have various options:
@@ -61,11 +60,26 @@ We both classes combined we can achieve most of the styling we need. In other wo
 
 ## Element Alignment
 
-Just like in normal CSS flexbox, in flutter we have CrossAxisAlignment and MainAxisAlignment. 
+Just like in normal CSS flexbox, in flutter we have CrossAxisAlignment and MainAxisAlignment.
 As we have Columns and Rows, the behavior of this properties will be:
 
-|   | Columns  | Rows  |   
-|---|---|---|
-| CrossAxisAlignment| What crosses a column, so it is a horizontal alignment   | What crosses a row or what I like to think a horizontal line. This means it aligns vertically.   |
-| MainAxisAlignment| The main flow of columns, i.e placing items vertically one below each other like a stack. | The main flow of row, i.e placing items horizontally.|
+|                    | Columns                                                                                   | Rows                                                                                           |
+| ------------------ | ----------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| CrossAxisAlignment | What crosses a column, so it is a horizontal alignment                                    | What crosses a row or what I like to think a horizontal line. This means it aligns vertically. |
+| MainAxisAlignment  | The main flow of columns, i.e placing items vertically one below each other like a stack. | The main flow of row, i.e placing items horizontally.                                          |
 
+## TextEditingControllers
+
+TextEditingControllers are a convinient way of having a variable been controlled by a stateless component that will be changed but doesn't effect the overall state of the app.
+Not only is an elegant way but Flutter preffer this style.
+
+```dart
+  final titleController = TextEditingController();
+```
+
+```dart
+  TextField(
+    decoration: InputDecoration(labelText: 'Amount'),
+    controller: amountController,
+  ),
+```
