@@ -83,3 +83,57 @@ Not only is an elegant way but Flutter preffer this style.
     controller: amountController,
   ),
 ```
+
+## Theming
+
+Flutter gives us an Api for creating an Theme of colors inside our app. Inside our MaterialApp object we can have a theme property that we can config to have different styles for our app globally.
+
+```dart
+return MaterialApp(
+      title: 'Expenses App',
+      home: MyHomePage(),
+      theme: ThemeData(
+          primarySwatch: Colors.purple,
+          accentColor: Colors.amber,
+          fontFamily: 'Quicksand',
+          textTheme: ThemeData.light().textTheme.copyWith(
+              title: TextStyle(
+                  fontFamily: 'OpenSans',
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18)),
+          appBarTheme: AppBarTheme(
+              textTheme: ThemeData.light().textTheme.copyWith(
+                  title: TextStyle(fontFamily: 'OpenSans', fontSize: 20)))),
+    );
+```
+
+## Fonts and Images
+
+To add static assets to Flutter apps is quite easy, first create a folder for it and then inside pubspec.yaml there are instructions on how to insert those fonts:
+
+```yaml
+flutter:
+  fonts:
+    - family: OpenSans
+      fonts:
+        - asset: assets/fonts/OpenSans-Regular.ttf
+        - asset: assets/fonts/OpenSans-bold.ttf
+          weight: 700
+    - family: Quicksand
+      fonts:
+        - asset: assets/fonts/Quicksand-Light.ttf
+          weight: 300
+        - asset: assets/fonts/Quicksand-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Quicksand-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Quicksand-Bold.ttf
+          weight: 700
+```
+
+The same works for images:
+
+```yaml
+assets:
+  - assets/images/waiting.png
+```
