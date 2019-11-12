@@ -137,3 +137,8 @@ The same works for images:
 assets:
   - assets/images/waiting.png
 ```
+
+## Components
+
+#### FittedBox
+Wrap child to its original size and not allow it to grow.
