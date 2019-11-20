@@ -141,4 +141,31 @@ assets:
 ## Components
 
 #### FittedBox
+
 Wrap child to its original size and not allow it to grow.
+
+#### Padding
+
+A Component that used to only set Padding to it wrapped child.
+
+#### Flexible
+
+Flexible is a wrapper to set its child growing space strategy.
+It uses the Flexfit API to set its behaviors
+
+## Flexfit
+
+When using the Flexfit API there is the options:
+- tight: uses all available space
+- loose: uses only space needed to fit the component
+
+It works similar to flexbox css.
+
+## Scaling and Responsive Layouts
+
+To have more responsive layouts we can use MediaQueries and LayoutBuilder component.
+
+## MediaQuery
+
+The media query has access to height, padding and other variables to give a more responsive layout to our components.
+

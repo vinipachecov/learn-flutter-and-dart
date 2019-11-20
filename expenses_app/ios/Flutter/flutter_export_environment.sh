@@ -1,8 +1,8 @@
 #!/bin/sh
 # This is a generated file; do not edit or check into version control.
 export "FLUTTER_ROOT=/Users/viniciuspachecovieira/Documents/flutter"
-export "FLUTTER_APPLICATION_PATH=/Users/viniciuspachecovieira/repos/learn-flutter-and-dart/expenses_app"
-export "FLUTTER_TARGET=/Users/viniciuspachecovieira/repos/learn-flutter-and-dart/expenses_app/lib/main.dart"
+export "FLUTTER_APPLICATION_PATH=/Volumes/osx-dados-hdd/Users/viniciuspvieira/reposHDD/learn-flutter-and-dart/expenses_app"
+export "FLUTTER_TARGET=/Volumes/osx-dados-hdd/Users/viniciuspvieira/reposHDD/learn-flutter-and-dart/expenses_app/lib/main.dart"
 export "FLUTTER_BUILD_DIR=build"
 export "SYMROOT=${SOURCE_ROOT}/../build/ios"
 export "FLUTTER_FRAMEWORK_DIR=/Users/viniciuspachecovieira/Documents/flutter/bin/cache/artifacts/engine/ios"
