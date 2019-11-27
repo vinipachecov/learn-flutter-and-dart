@@ -156,6 +156,7 @@ It uses the Flexfit API to set its behaviors
 ## Flexfit
 
 When using the Flexfit API there is the options:
+
 - tight: uses all available space
 - loose: uses only space needed to fit the component
 
@@ -169,3 +170,6 @@ To have more responsive layouts we can use MediaQueries and LayoutBuilder compon
 
 The media query has access to height, padding and other variables to give a more responsive layout to our components.
 
+## Layout Builder
+
+Layout builder helps us to give access to device constraints inside a component based on the device screen size.
