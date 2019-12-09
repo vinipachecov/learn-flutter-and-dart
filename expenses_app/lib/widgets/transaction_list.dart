@@ -1,5 +1,5 @@
+import 'package:expenses_app/widgets/transaction_item.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import '../models/transaction.dart';
 
 class TransactionList extends StatelessWidget {
@@ -10,6 +10,7 @@ class TransactionList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("build() for transacion list");
     return transactions.isEmpty
         ? LayoutBuilder(
             builder: (ctx, constraints) {
@@ -33,37 +34,8 @@ class TransactionList extends StatelessWidget {
           )
         : ListView.builder(
             itemBuilder: (ctx, index) {
-              return Card(
-                margin: EdgeInsets.symmetric(vertical: 8, horizontal: 5),
-                elevation: 5,
-                child: ListTile(
-                  trailing: MediaQuery.of(context).size.width > 400
-                      ? FlatButton.icon(
-                          icon: Icon(Icons.delete),
-                          color: Theme.of(context).errorColor,
-                          label: Text('Delete'),
-                        )
-                      : IconButton(
-                          icon: Icon(Icons.delete),
-                          color: Theme.of(context).errorColor,
-                          onPressed: () => deleteTx(transactions[index].id),
-                        ),
-                  leading: CircleAvatar(
-                      radius: 30,
-                      child: Padding(
-                        padding: EdgeInsets.all(6.0),
-                        child: FittedBox(
-                          child: Text('\$${transactions[index].amount}'),
-                        ),
-                      )),
-                  title: Text(
-                    transactions[index].title,
-                    style: Theme.of(context).textTheme.title,
-                  ),
-                  subtitle:
-                      Text(DateFormat.yMMMd().format(transactions[index].date)),
-                ),
-              );
+              return new TransactionItem(
+                  deleteTx: deleteTx, transaction: transactions[index]);
             },
             itemCount: transactions.length,
           );

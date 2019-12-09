@@ -173,3 +173,18 @@ The media query has access to height, padding and other variables to give a more
 ## Layout Builder
 
 Layout builder helps us to give access to device constraints inside a component based on the device screen size.
+
+
+## Trees in Flutter
+
+in Flutter there are 3 Trees that we must know: Widget Tree, Element Tree, Render Tree.
+
+### Widget Tree
+Is the current tree with all widgets currently rendered. 
+
+### Element Tree
+Replica of the Widget Tree but with the state of widgets.
+
+### Render Tree
+What is actually been seen in the App.
+
