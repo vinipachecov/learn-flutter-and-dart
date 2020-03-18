@@ -1,11 +1,11 @@
 #!/bin/sh
 # This is a generated file; do not edit or check into version control.
-export "FLUTTER_ROOT=/Users/viniciuspachecovieira/Documents/flutter"
-export "FLUTTER_APPLICATION_PATH=/Volumes/osx-dados-hdd/Users/viniciuspvieira/reposHDD/learn-flutter-and-dart/expenses_app"
-export "FLUTTER_TARGET=/Volumes/osx-dados-hdd/Users/viniciuspvieira/reposHDD/learn-flutter-and-dart/expenses_app/lib/main.dart"
+export "FLUTTER_ROOT=/Users/viniciuspvieira/flutter"
+export "FLUTTER_APPLICATION_PATH=/Users/viniciuspvieira/repos/learn-flutter-and-dart/expenses_app"
+export "FLUTTER_TARGET=/Users/viniciuspvieira/repos/learn-flutter-and-dart/expenses_app/lib/main.dart"
 export "FLUTTER_BUILD_DIR=build"
 export "SYMROOT=${SOURCE_ROOT}/../build/ios"
-export "FLUTTER_FRAMEWORK_DIR=/Users/viniciuspachecovieira/Documents/flutter/bin/cache/artifacts/engine/ios"
+export "FLUTTER_FRAMEWORK_DIR=/Users/viniciuspvieira/flutter/bin/cache/artifacts/engine/ios"
 export "FLUTTER_BUILD_NAME=1.0.0"
 export "FLUTTER_BUILD_NUMBER=1"
 export "TRACK_WIDGET_CREATION=true"
