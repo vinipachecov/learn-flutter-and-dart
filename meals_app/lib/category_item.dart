@@ -11,7 +11,7 @@ class CategoryItem extends StatelessWidget {
     // remember that using const improves rendering performance
     return Container(
       padding: const EdgeInsets.all(15),
-      child: Text(title),
+      child: Text(title, style: Theme.of(context).textTheme.headline6),
       decoration: BoxDecoration(
         gradient: LinearGradient(colors: [
             color.withOpacity(0.7),
