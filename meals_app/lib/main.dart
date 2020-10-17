@@ -27,11 +27,12 @@ class MyApp extends StatelessWidget {
           )
         )
       ),
-      home: CategoriesScreen(),
+      //  home route prop still works if we use '/' instead of the home prop      
       // Takes a map of string keys
       //  and the value is the creation function for a specific screen
       routes: {
-        '/category-meals': (ctx) => CategoryMealsScreen()
+        CategoriesScreen.routeName: (ctx) => CategoriesScreen(),
+        CategoryMealsScreen.routeName: (ctx) => CategoryMealsScreen()
       },
     );
   }
