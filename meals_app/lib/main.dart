@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meals_app/categories_screen.dart';
+import 'package:meals_app/category_meals_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -27,6 +28,11 @@ class MyApp extends StatelessWidget {
         )
       ),
       home: CategoriesScreen(),
+      // Takes a map of string keys
+      //  and the value is the creation function for a specific screen
+      routes: {
+        '/category-meals': (ctx) => CategoryMealsScreen()
+      },
     );
   }
 }
