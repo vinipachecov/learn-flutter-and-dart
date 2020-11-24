@@ -19,6 +19,9 @@
   - [Widget Tree](#Widget-Tree)
   - [Render Tree](#Render-Tree)
 - [Navigation](#Navigation)
+- [Provider and ChangeNotifier](#Provider-and-ChangeNotifier)
+  - [The ChangeNotifier class](#The-ChangeNotifier-class)
+  - [Partial re-rendering with Consumer](#Partial-re-rendering-with-Consumer)
 
 Basics about flutter
 
@@ -257,3 +260,158 @@ The way to attempt to get this data is:
 ```dart
   final mealId = ModalRoute.of(context).settings.arguments as String;
 ```
+
+## Provider and ChangeNotifier
+
+In most apps we need ways of providing access to data across diferent screens/widgets in our app. For instance, user data might be used across the whole app to identify possible requests or render user information to clearly identify who is using or something simliar.
+The Provider package provides a set of classes designed to help us in the accessibility of such information across widgets.
+
+<i>A class that extends Providers features is a class where it's data is somewhat required and used across the app.</i>
+
+Instead of directly returning the MaterialApp in our root file, we will require the usage of a "high order widget" that will wrap the MaterialApp widget and provides the basic setup for the usage of the Provider features:
+```dart
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (ctx) => Products(),
+          ),
+          ChangeNotifierProvider(
+            create: (ctx) => Cart(),
+          ),
+          ChangeNotifierProvider(create: (ctx) => Orders())
+        ],
+        child: MaterialApp(
+          title: 'MyShop',
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+            accentColor: Colors.deepOrange,
+            fontFamily: 'Lato',
+          ),
+          home: ProductsOverviewScreen(),
+          routes: {
+            ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
+            CartScreen.routeName: (ctx) => CartScreen(),
+            OrdersScreen.routeName: (ctx) => OrdersScreen(),
+            UserProductsScreen.routeName: (ctx) => UserProductsScreen(),
+            EditProductScreen.routeName: (ctx) => EditProductScreen()
+          },
+        ));
+  }
+}
+```
+
+### The ChangeNotifier class
+In this basic example, a simple abstraction of a shop app, MyApp widget returns a MultiProvider, which is a class used when we have multiple providers. Such Providers are stated in the providers array property, where every class that propagates data will be wrapped in a
+<strong>ChangeNotifierProvier</strong> class. Moreover, <i>the create property of this class</i> will receive an anonymous function with a context in its arguments and should return a class that we expect to listen it's changes.
+
+
+```dart
+  providers: [
+            ChangeNotifierProvider(
+              create: (ctx) => Products(),
+            ),
+            ChangeNotifierProvider(
+              create: (ctx) => Cart(),
+            ),
+            ChangeNotifierProvider(create: (ctx) => Orders())
+          ],
+```
+
+All of the instantied classes we want to listen, will use the "with" special keyword with ChangeNotifier class from foundation package. This will hook the features we want from the ChangeNotifier.
+
+```dart
+class Orders with ChangeNotifier {
+  List<OrderItem> _orders = [];
+
+  List<OrderItem> get orders {
+    return [..._orders];
+  }
+
+  void addOrder(List<CartItem> carProducts, double total) {
+    _orders.insert(
+        0,
+        OrderItem(
+            id: DateTime.now().toString(),
+            amount: total,
+            dateTime: DateTime.now(),
+            products: carProducts));
+  }
+}
+```
+
+Now we are able to access data from this class and its methods across any widget we want, only by using the following code:
+```dart
+  final ordersData = Provider.of<Orders>(context);
+```
+
+That is all. By using the Provider class from the provider package we are listening to the changes and rebuilding our widget when it changes, giving the possibility to render updated data.
+
+### Partial re-rendering with Consumer
+This gives a powerful tool to access data and even programatically choose when something should re-render. By using the Consumer class, also from foundation.dart, we can wrap piece of code in our widget to re-render when a class hooked with ChangeNotifier receives changes.
+```dart
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shop_app/providers/cart.dart';
+import 'package:shop_app/providers/product.dart';
+import 'package:shop_app/screens/product_detail_screen.dart';
+
+class ProductItem extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final product = Provider.of<Product>(context, listen: false);
+    final cart = Provider.of<Cart>(context, listen: false);
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(10),
+      child: GridTile(
+        child: GestureDetector(
+            onTap: () {
+              Navigator.of(context).pushNamed(ProductDetailScreen.routeName,
+                  arguments: product.id);
+            },
+            child: Image.network(product.imageUrl, fit: BoxFit.cover)),
+        footer: GridTileBar(
+          // Area that re-runs
+          leading: Consumer<Product>(
+              builder: (ctx, product, child) => IconButton(
+                  // needs data to check if it is favorite or not
+                  icon: Icon(product.isFavorite
+                      ? Icons.favorite
+                      : Icons.favorite_border),
+                  color: Theme.of(context).accentColor,
+                  onPressed: () {
+                    product.toggleFavoriteStatus();
+                  })),
+          trailing: IconButton(
+              icon: Icon(Icons.shopping_cart),
+              color: Theme.of(context).accentColor,
+              onPressed: () {
+                cart.addItem(product.id, product.price, product.title);
+                Scaffold.of(context).hideCurrentSnackBar();
+                Scaffold.of(context).showSnackBar(SnackBar(
+                  content: Text('added item to cart!'),
+                  duration: Duration(seconds: 2),
+                  action: SnackBarAction(
+                      label: 'Undo',
+                      onPressed: () {
+                        cart.removeSingeItem(product.id);
+                      }),
+                ));
+              }),
+          backgroundColor: Colors.black87,
+          title: Text(
+            product.title,
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+```
+
+In Consumer class gets a class which he will infer the data, and when instantiated will provide a builder prop that receives a method with:
+context, data_listened and child component.
