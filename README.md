@@ -623,3 +623,39 @@ This is an example of the widget:
 onFieldSubmitted: function to handle behavior after user submits the field
 onSaved: function triggered when the form status is saved, which we will hook the value from the input and send it the form state.
 validator: function that expects logic to validate the filed input. When return <strong>null</strong> the widget understands it is valid data.
+
+
+#### FocusNodes
+
+Its a common UX experience to allow users to jump from one text input to the next one. To address such requirement we can use the FocusNode class available in the material.dart package.
+
+First we instantiate the FocusNode in a state variable for our widget:
+```dart
+  final _priceFocusNode = FocusNode();
+  final _descriptionFocusNode = FocusNode();
+```
+
+Then, after in the submit propert of our input we will triger the FocusScope class and request the focus to the next input:
+
+```dart
+ TextFormField(
+  decoration: InputDecoration(labelText: "Title"),
+  // appearance of the submit button in the keyboard
+  textInputAction: TextInputAction.next,
+  onFieldSubmitted: (_) {
+    // Ensure price textfield is focused
+    FocusScope.of(context).requestFocus(_priceFocusNode);
+  },
+  //.,...... rest of the component
+  TextFormField(
+    decoration: InputDecoration(labelText: "Price"),
+    focusNode: _priceFocusNode,
+    // appearance of the submit button in the keyboard
+    onFieldSubmitted: (_) {
+      // Ensure price textfield is focused
+      FocusScope.of(context).requestFocus(_descriptionFocusNode);
+    },
+    textInputAction: TextInputAction.next,
+    keyboardType: TextInputType.number,
+    //..... rest of the component
+```
