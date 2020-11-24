@@ -465,3 +465,161 @@ class ProductItem extends StatelessWidget {
 
 In Consumer class gets a class which he will infer the data, and when instantiated will provide a builder prop that receives a method with:
 context, data_listened and child component.
+
+## Forms
+
+In Flutter, to properly handle forms we can use the Form widget from the material.dart package.
+It helps with most of the validation, error messages, customization and more.
+Forms will be used along with TextFormField, which is the component to render the text inputs.
+
+### About scroll using Form
+The Form widget receives only a single child, therefore if we need scroll capability we might
+want to use a SingleChildScrollView with a Column to enable an adequate render. The reason behing this is because if we use
+ListView, the rendering of the child components that are out of screen might result in some flickering or bugs during scroll.
+
+
+```dart
+Form(
+        key: _form,
+        child: ListView(
+          padding: EdgeInsets.all(16),
+          children: [
+            TextFormField(
+              decoration: InputDecoration(labelText: "Title"),
+              // appearance of the submit button in the keyboard
+              textInputAction: TextInputAction.next,
+              onFieldSubmitted: (_) {
+                // Ensure price textfield is focused
+                FocusScope.of(context).requestFocus(_priceFocusNode);
+              },
+              onSaved: (value) {
+                _editedProduct = Product(
+                    title: value,
+                    price: _editedProduct.price,
+                    description: _editedProduct.description,
+                    id: null,
+                    imageUrl: _editedProduct.imageUrl,
+                    isFavorite: _editedProduct.isFavorite);
+              },
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'Please provide a value.';
+                }
+                return null;
+              },
+            ),
+            TextFormField(
+              decoration: InputDecoration(labelText: "Price"),
+              focusNode: _priceFocusNode,
+              // appearance of the submit button in the keyboard
+              onFieldSubmitted: (_) {
+                // Ensure price textfield is focused
+                FocusScope.of(context).requestFocus(_descriptionFocusNode);
+              },
+              textInputAction: TextInputAction.next,
+              keyboardType: TextInputType.number,
+              onSaved: (value) {
+                _editedProduct = Product(
+                    title: _editedProduct.title,
+                    price: double.parse(value),
+                    description: _editedProduct.description,
+                    id: null,
+                    imageUrl: _editedProduct.imageUrl,
+                    isFavorite: _editedProduct.isFavorite);
+              },
+            ),
+            TextFormField(
+              decoration: InputDecoration(labelText: "Description"),
+              maxLines: 3,
+              keyboardType: TextInputType.multiline,
+              focusNode: _descriptionFocusNode,
+              onSaved: (value) {
+                _editedProduct = Product(
+                    title: _editedProduct.title,
+                    price: _editedProduct.price,
+                    description: value,
+                    id: null,
+                    imageUrl: _editedProduct.imageUrl,
+                    isFavorite: _editedProduct.isFavorite);
+              },
+            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Container(
+                    width: 100,
+                    height: 100,
+                    margin: EdgeInsets.only(top: 8, right: 10),
+                    decoration: BoxDecoration(
+                        border: Border.all(width: 1, color: Colors.grey)),
+                    child: _imageUrlController.text.isEmpty
+                        ? Text('Enter a URL')
+                        : FittedBox(
+                            child: Image.network(_imageUrlController.text),
+                            fit: BoxFit.cover,
+                          )),
+                Expanded(
+                  child: TextFormField(
+                    focusNode: _imageUrlFocusNode,
+                    decoration: InputDecoration(labelText: 'Image URL'),
+                    keyboardType: TextInputType.url,
+                    textInputAction: TextInputAction.done,
+                    controller: _imageUrlController,
+                    onSaved: (value) {
+                      _editedProduct = Product(
+                          title: _editedProduct.title,
+                          price: _editedProduct.price,
+                          description: _editedProduct.description,
+                          id: null,
+                          imageUrl: value,
+                          isFavorite: _editedProduct.isFavorite);
+                    },
+                    onEditingComplete: () {
+                      setState(() {});
+                    },
+                    onFieldSubmitted: (_) {
+                      _saveForm();
+                    },
+                  ),
+                )
+              ],
+            )
+          ],
+        ),
+      ),
+```
+
+#### TextFormField
+
+This is an example of the widget:
+
+```dart
+  TextFormField(
+    decoration: InputDecoration(labelText: "Title"),
+    // appearance of the submit button in the keyboard
+    textInputAction: TextInputAction.next,
+    onFieldSubmitted: (_) {
+      // Ensure price textfield is focused
+      FocusScope.of(context).requestFocus(_priceFocusNode);
+    },
+    onSaved: (value) {
+      _editedProduct = Product(
+          title: value,
+          price: _editedProduct.price,
+          description: _editedProduct.description,
+          id: null,
+          imageUrl: _editedProduct.imageUrl,
+          isFavorite: _editedProduct.isFavorite);
+    },
+    validator: (value) {
+      if (value.isEmpty) {
+        return 'Please provide a value.';
+      }
+      return null;
+    },
+  ),
+```
+
+onFieldSubmitted: function to handle behavior after user submits the field
+onSaved: function triggered when the form status is saved, which we will hook the value from the input and send it the form state.
+validator: function that expects logic to validate the filed input. When return <strong>null</strong> the widget understands it is valid data.
