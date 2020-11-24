@@ -244,6 +244,56 @@ When there is a chance you already pushed a route, i.e in a Drawer or similar me
     });
 ```
 
+A full example of a drawer in the shop_app:
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:shop_app/screens/orders_screen.dart';
+import 'package:shop_app/screens/user_product_screen.dart';
+
+class AppDrawer extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      child: Column(
+        children: [
+          AppBar(
+            title: Text("Hello Friend!"),
+            // add no back button
+            automaticallyImplyLeading: false,
+          ),
+          Divider(),
+          ListTile(
+            leading: Icon(Icons.shop),
+            title: Text('Shop'),
+            onTap: () {
+              Navigator.of(context).pushReplacementNamed('/');
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.shop),
+            title: Text('Orders'),
+            onTap: () {
+              Navigator.of(context)
+                  .pushReplacementNamed(OrdersScreen.routeName);
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.shop),
+            title: Text('Manage Products'),
+            onTap: () {
+              Navigator.of(context)
+                  .pushReplacementNamed(UserProductsScreen.routeName);
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+```
+
 To return to the previous route, one can use the pop method, also provided by the Navigator class:
 ```dart
   Navigator.of(context).pop();
