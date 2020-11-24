@@ -202,7 +202,7 @@ Layout builder helps us to give access to device constraints inside a component 
 in Flutter there are 3 Trees that we must know: Widget Tree, Element Tree, Render Tree.
 
 ### Widget Tree
-Is the current tree with all widgets currently rendered. 
+Is the current tree with all widgets currently rendered.
 
 ### Element Tree
 Replica of the Widget Tree but with the state of widgets.
@@ -215,10 +215,10 @@ What is actually been seen in the App.
 Navigation is a key feature in mobile apps. In Flutter we can use at least 2 methods with the Navigator class:
 
 - Navigator.of(context).push:
-```dart  
+```dart
   // MaterialPageRoute for Android animations and CupertinoPageRoute for IOS
   Navigator.of(ctx).push(MaterialPageRoute(builder: (_) {
-    // returning the name of our design 
+    // returning the name of our design
        return CategoryMealsScreen(this.id, this.title);
   }, ));
 ```
@@ -229,4 +229,24 @@ Navigation is a key feature in mobile apps. In Flutter we can use at least 2 met
       'id': id,
       'title': title
     });
+```
+
+When there is a chance you already pushed a route, i.e in a Drawer or similar menus, you can use "pushReplacementNamed" :
+
+```dart
+    // navigation using string named routes
+    Navigator.of(ctx).pushReplacementNamed('/route-name', arguments: {
+      'id': id,
+      'title': title
+    });
+```
+
+### Getting params from navigation
+
+Let's say you were supposed to receive data through navigation, i.e like an id.
+MediaRoute is a class that through the use of context can give access to a "screen" settings.arguments which is where
+the data should be.
+The way to attempt to get this data is:
+```dart
+  final mealId = ModalRoute.of(context).settings.arguments as String;
 ```
