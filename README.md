@@ -241,6 +241,13 @@ When there is a chance you already pushed a route, i.e in a Drawer or similar me
     });
 ```
 
+To return to the previous route, one can use the pop method, also provided by the Navigator class:
+```dart
+  Navigator.of(context).pop();
+```
+This will remove the latest widget "screen" in the stack and move backwards.
+
+
 ### Getting params from navigation
 
 Let's say you were supposed to receive data through navigation, i.e like an id.
