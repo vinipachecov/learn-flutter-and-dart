@@ -6,7 +6,6 @@ import 'package:flutter/foundation.dart';
 import 'package:shop_app/providers/cart.dart';
 import 'package:http/http.dart' as http;
 import 'package:shop_app/utils/api.dart';
-import 'package:shop_app/widgets/order_item.dart';
 
 class OrderItem {
   final String id;
@@ -28,11 +27,12 @@ class Orders with ChangeNotifier {
     return [..._orders];
   }
 
-  void fetchAndSetOrders() async {
+  Future<void> fetchAndSetOrders() async {
     final url = Api.url + '/orders.json';
     final response = await http.get(url);
     final List<OrderItem> loadedOrders = [];
     final extractedData = json.decode(response.body) as Map<String, dynamic>;
+    print(extractedData);
     if (extractedData == null) {
       return;
     }
