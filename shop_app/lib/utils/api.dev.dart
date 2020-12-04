@@ -1,3 +1,4 @@
 class Api {
-  final url = 'FIREBASE_URL';
+  static final url = 'FIREBASE_URL';
+  static final apiKey = 'api-key';
 }
