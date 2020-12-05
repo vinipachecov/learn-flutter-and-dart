@@ -61,12 +61,16 @@ class Products with ChangeNotifier {
   //   notifyListeners();
   // }
 
+  final String authToken;
+
+  Products(this.authToken, this._items);
+
   List<Product> get favoriteItems {
     return items.where((item) => item.isFavorite).toList();
   }
 
   Future<void> fetchAndSetProducts() async {
-    final url = Api.url + 'products.json';
+    final url = Api.url + 'products.json' + '?auth=' + this.authToken;
     try {
       final response = await http.get(url);
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
