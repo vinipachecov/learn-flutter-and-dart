@@ -10,6 +10,10 @@ class Auth with ChangeNotifier {
   DateTime _expiryDate;
   String _userId;
 
+  String get userId {
+    return _userId;
+  }
+
   bool get isAuth {
     return token != null;
   }
@@ -68,5 +72,12 @@ class Auth with ChangeNotifier {
     } catch (e) {
       throw e;
     }
+  }
+
+  void logout() {
+    _token = null;
+    _userId = null;
+    _expiryDate = null;
+    notifyListeners();
   }
 }
