@@ -25,13 +25,12 @@ class Product with ChangeNotifier {
     notifyListeners();
   }
 
-  void toggleFavoriteStatus() async {
+  void toggleFavoriteStatus(String token, String userId) async {
     final oldStatus = isFavorite;
     isFavorite = !isFavorite;
-    final url = Api.url + '/products/$id.json';
+    final url = Api.url + '/userFavorites/$userId/$id.json' + '?auth=' + token;
     try {
-      final response =
-          await http.patch(url, body: json.encode({'isFavorite': isFavorite}));
+      final response = await http.put(url, body: json.encode(isFavorite));
       /**
            * Patch, PUT and Delete on Firebase don't return errors
            */
