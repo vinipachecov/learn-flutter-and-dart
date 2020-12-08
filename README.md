@@ -22,11 +22,20 @@
 - [Provider and ChangeNotifier](#Provider-and-ChangeNotifier)
   - [The ChangeNotifier class](#The-ChangeNotifier-class)
   - [Partial re-rendering with Consumer](#Partial-re-rendering-with-Consumer)
+- [Forms](#Forms)
+  - [About scroll using Form](#About-scroll-using-Form)
+  - [TextFormField](#TextFormField)
+  - [FocusNodes](#FocusNodes)
+- [Animations](#Animations)
+  - [Manually animating](#Manually-animating)
+  - [Animated Builder](#Animated-Builder)
+  - [AnimatedContainer (Declarative)](#AnimatedContainer-Declarative)
+
+<br/>
 
 Basics about flutter
 
-Flutter is an extremelly powerfull language, it is a compiled language so it compiles code directly to machine code, making it extremelly fast.
-
+Flutter is an extremelly powerful framework for developing mobile apps, it uses is a compiled language called dart so it compiles code closer to machine code, making it extremelly fast.
 
 ## About the dart language
 
@@ -764,3 +773,29 @@ AnimationBuilder receives:
   ),
         //...
 ```
+
+### AnimatedContainer (Declarative)
+
+If all the developer needs is a smooth transition, than AnimatedContainer can easily helps us. Removing the heavy lifting of declaring and instanciating AnimationController, Animation and the Tween class for the interpolation,
+AnimatedContainer handles it as simple as the code below:
+
+```dart
+AnimatedContainer(
+    duration: Duration(milliseconds: 300),
+    curve: Curves.easeIn,
+    height: _authMode == AuthMode.Signup ? 320 : 260,
+    // height: _heightAnimation.value.height,
+    constraints: BoxConstraints(
+        minHeight: _authMode == AuthMode.Signup ? 320 : 260),
+    width: deviceSize.width * 0.75,
+    padding: EdgeInsets.all(16.0),
+    child: Form(
+      key: _formKey,
+```
+
+Thus, AnimatedContainer widget expects:
+- duration: Duration class
+- curve: Curves.curveName property
+- valueToBeChanged(Container values)
+
+As soon as the Component observes a change in a property it will apply the animation with the curve provided.
