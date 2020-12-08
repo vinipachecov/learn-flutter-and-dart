@@ -741,3 +741,26 @@ class _AuthCardState extends State<AuthCard>
 ```
 
 
+### Animated Builder
+
+AnimatedBuilder is a built-in flutter component that can wrap a widget that expects animation. All the previous steps of the manual animation are required besides the addListener.
+AnimationBuilder receives:
+- animation: AnimationController
+- builder: (context, child) => Component that will access the animationController
+- child: A child component that will be propagated to the builder method
+
+```dart
+  //...
+   AnimatedBuilder(
+    animation: _heightAnimation,
+    builder: (ctx, ch) => Container(
+        // height: _authMode == AuthMode.Signup ? 320 : 260,
+        height: _heightAnimation.value.height,
+        constraints:
+            BoxConstraints(minHeight: _heightAnimation.value.height),
+        width: deviceSize.width * 0.75,
+        padding: EdgeInsets.all(16.0),
+        child: ch
+  ),
+        //...
+```
