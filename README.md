@@ -659,3 +659,85 @@ Then, after in the submit propert of our input we will triger the FocusScope cla
     keyboardType: TextInputType.number,
     //..... rest of the component
 ```
+
+## Animations
+Animations are an important part of how mobile apps provides smooth experiences in the UI.
+### Manually animating
+Flutter provides as a set of classes to help us doing animations manually:
+
+- AnimationController: class that responsible for a specific animation
+- Animation: Class that receive a <Type> which the values will change.
+- Tween: helper Class that when instantiated receives the same Animation class type and set
+    - begin: <Type> used and the value range
+    - end: <Type> used and the value range
+    - animate (method): when called expects an animation curve(linear, easeIn, easeOut etc...) which receives a
+      CurvedAnimation class. CurvedAnimation receives 2 props:
+        - parent: AnimationController instance
+        - curve: A curve that can be found in the Curves helper class, e.g Curves.linear.
+
+For the animation take effect(at least when doing it manually) we require to rebuild the widget, i.e calling setState directly or indirectly. In the example below, it was set an listener when the widget calls its initState hook.
+
+Moreover, to actually start the animations, the controller.forward() and controller.reverse() must be called to actually dispatch the animations.
+
+```dart
+class _AuthCardState extends State<AuthCard>
+    with SingleTickerProviderStateMixin {
+  final GlobalKey<FormState> _formKey = GlobalKey();
+  AuthMode _authMode = AuthMode.Login;
+  Map<String, String> _authData = {
+    'email': '',
+    'password': '',
+  };
+  var _isLoading = false;
+  final _passwordController = TextEditingController();
+  AnimationController _controller;
+  Animation<Size> _heightAnimation;
+
+  @override
+  void initState() {
+    _controller = new AnimationController(
+        vsync: this, duration: Duration(microseconds: 300));
+
+    _heightAnimation = Tween<Size>(
+            begin: Size(double.infinity, 260), end: Size(double.infinity, 320))
+        .animate(CurvedAnimation(parent: _controller, curve: Curves.linear));
+    _heightAnimation.addListener(() {
+      setState(() {});
+    });
+    super.initState();
+  }
+  //.....
+
+// Animations triggers HERE
+  void _switchAuthMode() {
+    if (_authMode == AuthMode.Login) {
+      setState(() {
+        _authMode = AuthMode.Signup;
+      });
+      // Start the animation
+      _controller.forward();
+    } else {
+      setState(() {
+        _authMode = AuthMode.Login;
+      });
+      // revert the animation
+      _controller.reverse();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final deviceSize = MediaQuery.of(context).size;
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      elevation: 8.0,
+      child: Container(
+        // height: _authMode == AuthMode.Signup ? 320 : 260,
+        height: _heightAnimation.value.height,
+        constraints: BoxConstraints(minHeight: _heightAnimation.value.height),
+        width: deviceSize.width * 0.75,
+```
+
+
