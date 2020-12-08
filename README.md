@@ -30,6 +30,8 @@
   - [Manually animating](#Manually-animating)
   - [Animated Builder](#Animated-Builder)
   - [AnimatedContainer (Declarative)](#AnimatedContainer-Declarative)
+  - [SlideTransition] (#SlideTransition)
+  - [FadeTransition (Manual)](#FadeTransition-(Manual))
 
 <br/>
 
@@ -799,3 +801,54 @@ Thus, AnimatedContainer widget expects:
 - valueToBeChanged(Container values)
 
 As soon as the Component observes a change in a property it will apply the animation with the curve provided.
+
+
+### SlideTransition (Manual)
+SlideTransition component helps developers to to sliding animations but requires AnimationController and Animation<Offset> instances.
+In this Component it is required to use Tween with the Offset class, which provides x and y properties.
+```dart
+Animation<Offset> _slideAnimation;
+ _slideAnimation = Tween(begin: Offset(0, -15), end: Offset(0, 0))
+        .animate(CurvedAnimation(parent: _controller, curve: Curves.easeIn));
+```
+
+```dart
+SlideTransition(
+  position: _slideAnimation,
+  child: TextFormField(
+    enabled: _authMode == AuthMode.Signup,
+    decoration:
+        InputDecoration(labelText: 'Confirm Password'),
+```
+
+### FadeTransition (Manual)
+FadeTransition component helps developers to to fading animations but requires AnimationController and Animation<double> instances.
+```dart
+  Animation<double> _opacityAnimation;
+   _opacityAnimation = Tween(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeIn));
+```
+
+```dart
+ FadeTransition(
+        opacity: _opacityAnimation,
+        child: SlideTransition(
+          position: _slideAnimation,
+          child: TextFormField(
+            enabled: _authMode == AuthMode.Signup,
+            decoration:
+                InputDecoration(labelText: 'Confirm Password'),
+            obscureText: true,
+            validator: _authMode == AuthMode.Signup
+                ? (value) {
+                    if (value != _passwordController.text) {
+                      return 'Passwords do not match!';
+                    }
+                  }
+                : null,
+          ),
+        ),
+      ),
+```
