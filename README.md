@@ -32,6 +32,7 @@
   - [AnimatedContainer (Declarative)](#AnimatedContainer-Declarative)
   - [SlideTransition] (#SlideTransition)
   - [FadeTransition (Manual)](#FadeTransition-(Manual))
+  - [FadeInImage](#FadeInImage)
 
 <br/>
 
@@ -852,3 +853,52 @@ FadeTransition component helps developers to to fading animations but requires A
         ),
       ),
 ```
+
+### FadeInImage
+
+FadeInImage widget helps us give, as the name suggests, a fade in animation to a widget without all the set up that a manual animation requires with AnimationControllers and so on.
+
+```dart
+FadeInImage(
+  placeholder:
+      AssetImage('assets/images/product-placeholder.png'),
+  image: NetworkImage(
+    product.imageUrl,
+  ),
+  fit: BoxFit.cover
+),
+```
+
+### Hero
+Hero animation gives us the idea of diving in or zooming in and out of an image, creating a rich user experiences in some apps that show many different list items.
+
+All it is required is to have a unique key which will be used in the tag property of the animation between 2 screens
+
+
+Product screen overview (product item widget)
+```dart
+Hero(
+  tag: product.id,
+  child: FadeInImage(
+      placeholder:
+          AssetImage('assets/images/product-placeholder.png'),
+      image: NetworkImage(
+        product.imageUrl,
+      ),
+      fit: BoxFit.cover),
+)
+```
+
+And Product Detail screen:
+
+```dart
+Hero(
+  tag: loadedProduct.id,
+  child: Image.network(
+    loadedProduct.imageUrl,
+    fit: BoxFit.cover,
+  ),
+),
+```
+
+When keeping the same tag, flutter will be able to recognize both and animate properly.
