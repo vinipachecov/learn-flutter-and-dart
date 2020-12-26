@@ -45,3 +45,7 @@ app.*.map.json
 
 #location api
 /lib/helper/location_helper.dart
+
+#avoid exposing keys
+android/app/src/main/AndroidManifest.xml
+ios/Runner/AppDelegate.swift
