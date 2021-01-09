@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_chat_app/widgets/chat/messages.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 class ChatScreen extends StatelessWidget {
@@ -7,16 +9,38 @@ class ChatScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold
     (
-      body: StreamBuilder(stream: Firestore.instance.collection('chats/gPEdCntNOK7hMa8KBhU9/messages').snapshots(),  builder: (ctx, snapshot) {
-        if(snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
-        }
-        final documents = snapshot.data.documents;
-        return ListView.builder( itemCount: documents.length, itemBuilder: (ctx, index) => Container(
-          padding: EdgeInsets.all(8),
-          child: Text(documents[index]['text']),
-        ));
-      }),
+      appBar: AppBar(
+        title: Text('FlutterChat'),
+        actions: [
+          DropdownButton(
+            icon: Icon(Icons.more_vert, color: Theme.of(context).primaryIconTheme.color,),
+            onChanged: (itemIdentifier) {
+              if(itemIdentifier == 'logout') {
+                FirebaseAuth.instance.signOut();
+              }
+            },
+            items: [
+              DropdownMenuItem(
+                value: 'logout',
+                child: Container(
+                  child: Row(children: [
+                    Icon(Icons.exit_to_app),
+                    SizedBox(width: 8),
+                    Text('Logout')
+                  ],),
+                ),
+              )
+            ],
+          )
+        ],
+      ),
+      body: Container(
+        child: Column(
+          children: [
+            Expanded(child: Messages())
+          ],
+        )
+      ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () async {

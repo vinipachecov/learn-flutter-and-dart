@@ -1,4 +1,5 @@
 import 'package:firebase_chat_app/screens/auth_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import './screens/chat_screen.dart';
 void main() {
@@ -6,7 +7,6 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -23,7 +23,12 @@ class MyApp extends StatelessWidget {
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: AuthScreen(),
+      home: StreamBuilder(stream: FirebaseAuth.instance.onAuthStateChanged, builder: (ctx, userSnapshot) {
+        if(userSnapshot.hasData) {
+          return ChatScreen();
+        }
+        return AuthScreen();
+      })
     );
   }
 }
