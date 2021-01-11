@@ -71,6 +71,8 @@ class _AuthFormState extends State<AuthForm> {
                   decoration: InputDecoration(
                     labelText: 'Email address'
                   ),
+                  autocorrect: false,
+                  textCapitalization: TextCapitalization.none,
                   onSaved: (value) {
                     _userEmail = value;
                   },
@@ -78,6 +80,7 @@ class _AuthFormState extends State<AuthForm> {
                 ),
                 if(!_isLogin)
                 TextFormField(
+                  textCapitalization: TextCapitalization.words,
                   validator: (value) {
                     if (value.isEmpty || value.length < 4) {
                       return 'Please enter at least 4 characters for username.';
